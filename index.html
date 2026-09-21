@@ -1,1 +1,314 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>AI Recap Studio</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #171717;
+    }
+
+    .header {
+      background: #ffffff;
+      padding: 18px 25px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #6d3df5;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 20px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #777;
+      font-size: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+      margin-bottom: 25px;
+    }
+
+    .upload {
+      border: 2px dashed #8b6cf6;
+      border-radius: 15px;
+      padding: 50px 20px;
+      text-align: center;
+      background: #faf9ff;
+      cursor: pointer;
+    }
+
+    .upload-icon {
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+
+    .upload h2 {
+      margin-bottom: 10px;
+    }
+
+    .upload p {
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .upload-btn {
+      display: inline-block;
+      background: #6d3df5;
+      color: white;
+      padding: 13px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .settings {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .setting label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      background: white;
+    }
+
+    .generate {
+      width: 100%;
+      margin-top: 25px;
+      padding: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #6d3df5;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .generate:hover {
+      background: #5630d0;
+    }
+
+    .progress {
+      display: none;
+      margin-top: 25px;
+    }
+
+    .step {
+      padding: 12px;
+      margin: 8px 0;
+      background: #f4f4f8;
+      border-radius: 8px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px;
+      color: #888;
+    }
+
+    @media(max-width: 700px) {
+      .settings {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .container {
+        margin: 15px auto;
+        padding: 12px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo">🎬 AI RECAP STUDIO</div>
+    <div>AI Movie Recap</div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <h1>AI-Powered Movie Recap</h1>
+      <p>Upload your movie and create an AI narrated recap.</p>
+    </section>
+
+    <section class="card">
+
+      <label for="videoFile" class="upload">
+
+        <div class="upload-icon">🎬</div>
+
+        <h2>Upload Your Movie</h2>
+
+        <p id="fileText">
+          MP4, MOV or MKV video files
+        </p>
+
+        <span class="upload-btn">
+          📤 Select Video
+        </span>
+
+      </label>
+
+      <input
+        id="videoFile"
+        type="file"
+        accept="video/*"
+      >
+
+      <div class="settings">
+
+        <div class="setting">
+          <label>Language</label>
+
+          <select>
+            <option>🇲🇲 Myanmar</option>
+            <option>🇨🇳 Chinese</option>
+            <option>🇬🇧 English</option>
+          </select>
+        </div>
+
+        <div class="setting">
+          <label>Voice</label>
+
+          <select>
+            <option>Male Narrator</option>
+            <option>Female Narrator</option>
+          </select>
+        </div>
+
+        <div class="setting">
+          <label>Recap Style</label>
+
+          <select>
+            <option>Movie Narrator</option>
+            <option>Short TikTok Style</option>
+            <option>Detailed Story</option>
+          </select>
+        </div>
+
+      </div>
+
+      <button class="generate" onclick="generateRecap()">
+        🚀 GENERATE AI RECAP
+      </button>
+
+      <div class="progress" id="progress">
+
+        <div class="step">📤 Video Upload ✓</div>
+        <div class="step">🎧 Audio Extraction ⏳</div>
+        <div class="step">📝 Speech-to-Text ⏳</div>
+        <div class="step">🧠 AI Story Analysis ⏳</div>
+        <div class="step">✍️ Recap Script ⏳</div>
+        <div class="step">🔊 AI Voice Generation ⏳</div>
+        <div class="step">💬 Subtitle Generation ⏳</div>
+        <div class="step">🎞️ Final Video Rendering ⏳</div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    AI Recap Studio © 2026
+  </footer>
+
+  <script>
+
+    const videoInput = document.getElementById("videoFile");
+
+    videoInput.addEventListener("change", function() {
+
+      if (this.files.length > 0) {
+
+        document.getElementById("fileText").innerText =
+          "Selected: " + this.files[0].name;
+
+      }
+
+    });
+
+    function generateRecap() {
+
+      const file = videoInput.files[0];
+
+      if (!file) {
+
+        alert("ကျေးဇူးပြုပြီး Video တစ်ခုအရင်ရွေးပါ။");
+
+        return;
+      }
+
+      document.getElementById("progress").style.display = "block";
+
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>
